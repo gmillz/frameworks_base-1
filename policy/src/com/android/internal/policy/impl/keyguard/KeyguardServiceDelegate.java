@@ -133,8 +133,7 @@ public class KeyguardServiceDelegate {
     private void sendStateChangeBroadcast(boolean bound) {
         Intent i = new Intent(ACTION_STATE_CHANGE);
         i.putExtra(EXTRA_ACTIVE, bound);
-        mScrim.getContext().sendBroadcastAsUser(i, UserHandle.ALL,
-                Manifest.permission.CONTROL_KEYGUARD);
+        mScrim.getContext().sendStickyBroadcast(i);
     }
 
     private final ServiceConnection mKeyguardConnection = new ServiceConnection() {
@@ -153,7 +152,6 @@ public class KeyguardServiceDelegate {
             }
             if (mKeyguardState.bootCompleted) {
                 mKeyguardService.onBootCompleted();
-                sendStateChangeBroadcast(true);
             }
         }
 
@@ -353,6 +351,7 @@ public class KeyguardServiceDelegate {
             sendStateChangeBroadcast(true);
         }
         mKeyguardState.bootCompleted = true;
+        sendStateChangeBroadcast(true);
     }
 
     public void onActivityDrawn() {
