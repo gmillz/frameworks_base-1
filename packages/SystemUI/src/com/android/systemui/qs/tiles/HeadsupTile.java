@@ -39,6 +39,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class HeadsupTile extends QSTile<QSTile.BooleanState> {
+
+    private static final Intent NOTIFICATION_SETTINGS = new Intent("android.settings.NOTIFICATION_MANAGER");
+
     private boolean mListening;
     private HeadsupObserver mObserver;
 
@@ -59,20 +62,9 @@ public class HeadsupTile extends QSTile<QSTile.BooleanState> {
 	toast();
     }
 
-     @Override
-    protected void handleSecondaryClick() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setClassName("com.android.settings",
-            "com.android.settings.Settings$HeadsUpSettingsActivity");
-        mHost.startSettingsActivity(intent);
-    }
-
     @Override
-    public void handleLongClick() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setClassName("com.android.settings",
-            "com.android.settings.Settings$HeadsUpSettingsActivity");
-        mHost.startSettingsActivity(intent);
+    protected void handleLongClick() {
+        mHost.startSettingsActivity(NOTIFICATION_SETTINGS);
     }
 
  protected void toggleState() {
